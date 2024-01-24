@@ -1,0 +1,1 @@
+D:\1.Dev\9.dontnet_workspace\baby-age-counter\babyagecounter.client\obj\Debug\babyagecounter.client.esproj.CoreCompileInputs.cache
