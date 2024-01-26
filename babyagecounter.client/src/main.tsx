@@ -1,10 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+
+import RootLayout from './Layout.tsx'
+import AgeCounter from './baby/AgeCounter.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <RootLayout>
+      <AgeCounter></AgeCounter>
+    </RootLayout>
   </React.StrictMode>,
 )
