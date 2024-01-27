@@ -49,6 +49,10 @@ export default defineConfig({
             '^/weatherforecast': {
                 target: 'http://localhost:5254/',
                 secure: false
+            },
+            '^/baby': {
+                target: 'http://localhost:5254/',
+                secure: false
             }
         },
         port: 5000,

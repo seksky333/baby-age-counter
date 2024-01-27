@@ -1,15 +1,41 @@
-import { useEffect } from 'react';
+import { BabyModel, getBaby } from "../network/BabyModule";
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+
+const queryClient = new QueryClient()
 
 
-function AgeCounter() {
-    useEffect(() => {
-
-    }, []);
+export default function AgeCounter() {
     return (
-        <main>
-            <h1>Hello Baby Age Counter</h1>
-        </main>
-        )
+        <QueryClientProvider client={queryClient}>
+            <BabyAgeContent />
+        </QueryClientProvider>
+    )
 }
 
-export default AgeCounter;
+function BabyAgeContent() {
+    const { isLoading, data } = useQuery<BabyModel[]>({
+        queryKey: ['baby'],
+        queryFn: getBaby
+    });
+
+    if (isLoading) return <div>Fetching posts...</div>;
+    // if (error) return <div>An error occurred: {(error as Error).message}</div>;
+    const babyList = data ?? [];
+    const baby: BabyModel | null = babyList.length > 0 ? babyList[0] : null;
+
+    if (baby == null) {
+        return (
+            <>
+                <h1>No baby found</h1>
+            </>
+        )
+    } else {
+        return (
+            <>
+                <h1>Hello Baby </h1>
+                <p>You are {baby.age}</p>
+                <p>Due at {baby.age}</p>
+            </>
+        )
+    }
+}

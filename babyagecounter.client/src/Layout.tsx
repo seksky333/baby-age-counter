@@ -6,15 +6,13 @@ type Props = {
   children?: React.ReactNode
 };
 
-export default function RootLayout({children}: Props): React.ReactNode {
+export default function RootLayout({ children }: Props): React.ReactNode {
   return (
-    <html lang="en">
-      <body className="px-4">
-        <div className="flex">
+      <main className="px-4">
+        <nav className="flex">
           <NavBar />
-        </div>
-        <main className="md:container md:mx-auto">{children}</main>
-      </body>
-    </html>
+        </nav>
+        <section className="md:container md:mx-auto">{children}</section>
+      </main>
   );
 }
