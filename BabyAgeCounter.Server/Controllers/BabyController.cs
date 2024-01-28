@@ -1,5 +1,6 @@
 ﻿using BabyAgeCounter.Server.data;
 using BabyAgeCounter.Server.models;
+using BabyAgeCounter.Server.utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,8 @@ public class BabyController : ControllerBase
 {
     private readonly BabyContext _dbContext;
     private static bool _ensureCreated { get; set; } = false;
+
+    
 
     public BabyController(BabyContext dbContext)
     {
@@ -26,13 +29,20 @@ public class BabyController : ControllerBase
     [HttpGet("Baby")]
     public async Task<IActionResult> GetBaby()
     {
-        return Ok(await _dbContext.Baby.ToListAsync());
+        var babyEntityList = await _dbContext.Baby.ToListAsync();
+        var babyList = babyEntityList.ConvertAll(baby => new BabyDto
+        {
+            Id = baby.Id.ToString(),
+            Age = DateTimeConverter.ToUtcMillis(baby.Age),
+            DueDate = DateTimeConverter.ToUtcMillis(baby.DueDate)         
+        }).ToList();
+        return Ok(babyList);
     }
 
     [HttpPost("Baby")]
-    public async Task<IActionResult> CreateBaby([FromBody] Baby baby)
+    public async Task<IActionResult> CreateBaby([FromBody] BabyEntity baby)
     {
-        var newBaby = new Baby
+        var newBaby = new BabyEntity
         {
             Age = baby.Age,
             DueDate = baby.DueDate
@@ -44,7 +54,7 @@ public class BabyController : ControllerBase
     }
 
     [HttpPut("Baby")]
-    public async Task<IActionResult> UpdateBaby([FromBody] Baby updatedBaby, Guid id)
+    public async Task<IActionResult> UpdateBaby([FromBody] BabyEntity updatedBaby, Guid id)
     {
         var existingBaby = await _dbContext.Baby.FirstOrDefaultAsync(baby => baby.Id == id);
         if (existingBaby is null)
@@ -68,7 +78,7 @@ public class BabyController : ControllerBase
         }
 
 
-        _dbContext.Baby.Remove(new Baby
+        _dbContext.Baby.Remove(new BabyEntity
         {
             Id = id
         });

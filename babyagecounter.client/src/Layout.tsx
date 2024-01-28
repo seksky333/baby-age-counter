@@ -8,11 +8,11 @@ type Props = {
 
 export default function RootLayout({ children }: Props): React.ReactNode {
   return (
-      <main className="px-4">
-        <nav className="flex">
+      <main className="px-12">
+        <nav className="flex pb-8">
           <NavBar />
         </nav>
-        <section className="md:container md:mx-auto">{children}</section>
+        <section className="items-center container mx-auto">{children}</section>
       </main>
   );
 }

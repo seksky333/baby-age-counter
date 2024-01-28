@@ -3,6 +3,10 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
 const queryClient = new QueryClient()
 
+const toWeeks = (dateTime: string) =>{
+    return dateTime;
+};
+
 
 export default function AgeCounter() {
     return (
@@ -32,9 +36,21 @@ function BabyAgeContent() {
     } else {
         return (
             <>
-                <h1>Hello Baby </h1>
-                <p>You are {baby.age}</p>
-                <p>Due at {baby.age}</p>
+            <div className="flex flex-col items-center">
+                <div className="max-w-sm rounded overflow-hidden shadow-lg">
+                    <img className="w-full" src="/src/assets/baby_room.jpg" alt="Sunset in the mountains"></img>
+                    <div className="px-6 py-4">
+                        <div className="text-xl mb-2">
+                            <span>I'm </span>
+                            <span className="font-bold">{toWeeks(baby.age)}</span>
+                            <span> old</span>
+                        </div>
+                        <p className="text-gray-700 text-base">
+                            Will be meeting you on {baby.age}
+                        </p>
+                    </div>
+                </div>
+            </div>
             </>
         )
     }
