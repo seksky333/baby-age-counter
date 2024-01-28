@@ -9,9 +9,9 @@ type Props = {
 export default function RootLayout({ children }: Props): React.ReactNode {
   return (
       <main className="px-12">
-        <nav className="flex pb-8">
-          <NavBar />
-        </nav>
+        <div className="pb-8">
+          <NavBar/>
+        </div>
         <section className="items-center container mx-auto">{children}</section>
       </main>
   );
