@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString =
-    
+var connectionString = builder.Configuration.GetConnectionString("azureDB") ?? throw new ArgumentNullException($"DB connection string is not found")
+    ;
 builder.Services.AddDbContext<BabyContext>(options =>
     options.UseCosmos(connectionString, "BabyDB")
 );
@@ -44,7 +44,6 @@ app.UseAuthorization();
 app.UseCors(allowedOrigins);
 
 app.MapControllers();
-
 app.MapFallbackToFile("/index.html");
 
 app.Run();
