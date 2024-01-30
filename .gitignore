@@ -3,3 +3,5 @@
 .vs/
 BabyAgeCounter.Server/obj/
 BabyAgeCounter.Server/bin/
+
+BabyAgeCounter.Server/appsettings.Development.json
