@@ -47,11 +47,11 @@ export default defineConfig({
     server: {
         proxy: {
             '^/weatherforecast': {
-                target: 'http://localhost:5254/',
+                target: 'http://localhost:9090/',
                 secure: false
             },
             '^/baby': {
-                target: 'http://localhost:5254/',
+                target: 'http://localhost:9090/',
                 secure: false
             }
         },

@@ -1,6 +1,5 @@
-@BabyAgeCounter.Server_HostAddress = http://localhost:5254
+@BabyAgeCounter.Server_HostAddress = http://localhost:9090
 
-GET {{BabyAgeCounter.Server_HostAddress}}/weatherforecast/
+GET {{BabyAgeCounter.Server_HostAddress}}/baby/
 Accept: application/json
-
 ###
