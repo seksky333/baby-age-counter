@@ -12,7 +12,6 @@ const toWeeks = (dateTime: string) => {
 const getBabyRoomImgUrl = () => {
     const imagePath = "baby_room.jpg";
     const assetPath = isDevelopment() ? `/public/${imagePath}` : `/${imagePath}`;
-    console.log(assetPath);
     return new URL(`${assetPath}`, import.meta.url).href;
 };
 
