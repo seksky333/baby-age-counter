@@ -1,12 +1,25 @@
 import { BabyModel, getBaby } from "../network/BabyModule";
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { isDevelopment } from "../utilities/EnvManager";
+import moment from 'moment'
 
 
 const queryClient = new QueryClient()
 
-const toWeeks = (dateTime: string) => {
-    return dateTime;
+const showAgeByWeeks = (dateTime: string) => {
+    const birthDate = new Date(parseInt(dateTime));
+    const curDate = new Date();
+    const elapsed = curDate.getTime() - birthDate.getTime();
+    const ageByWeeks = moment.duration(elapsed).asWeeks();
+    const weeks = Math.floor(ageByWeeks);
+    const remainingDays = Math.round(7 * Math.abs(weeks - ageByWeeks));
+    const ageCount = `${weeks} weeks and ${remainingDays} days`
+    return ageCount;
+};
+
+const showDueDate = (dateTime: string) => {
+    const dueDate = new Date(parseInt(dateTime));
+    return dueDate.toLocaleDateString();
 };
 
 const getBabyRoomImgUrl = () => {
@@ -50,11 +63,11 @@ function BabyAgeContent() {
                         <div className="px-6 py-4">
                             <div className="text-xl mb-2">
                                 <span>I'm </span>
-                                <span className="font-bold">{toWeeks(baby.age)}</span>
+                                <span className="font-bold">{showAgeByWeeks(baby.age)}</span>
                                 <span> old</span>
                             </div>
                             <p className="text-gray-700 text-base">
-                                Will be meeting you on {baby.age}
+                                Will be meeting you on {showDueDate(baby.dueDate)}
                             </p>
                         </div>
                     </div>
