@@ -12,7 +12,9 @@ const showAgeByWeeks = (dateTime: string) => {
     const elapsed = curDate.getTime() - birthDate.getTime();
     const ageByWeeks = moment.duration(elapsed).asWeeks();
     const weeks = Math.floor(ageByWeeks);
-    const remainingDays = Math.round(7 * Math.abs(weeks - ageByWeeks));
+    console.log(Math.abs(weeks - ageByWeeks));
+    console.log(7 * Math.abs(weeks - ageByWeeks));
+    const remainingDays = Math.floor(7 * Math.abs(weeks - ageByWeeks));
     const ageCount = `${weeks} weeks and ${remainingDays} days`
     return ageCount;
 };
