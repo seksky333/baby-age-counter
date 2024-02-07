@@ -7,3 +7,5 @@ BabyAgeCounter.Server/bin/
 BabyAgeCounter.Server/appsettings.Development.json
 
 BabyAgeCounter.Server/appsettings.json
+
+BabyAgeCounterTests/obj/

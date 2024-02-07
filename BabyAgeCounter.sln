@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyAgeCounter.Server", "Ba
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "babyagecounter.client", "babyagecounter.client\babyagecounter.client.esproj", "{E9B61BDD-00F8-4BC6-8A11-995EB41319CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyAgeCounterTests", "BabyAgeCounterTests\BabyAgeCounterTests.csproj", "{F4369825-148F-4575-8C74-5051D875D9DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{E9B61BDD-00F8-4BC6-8A11-995EB41319CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9B61BDD-00F8-4BC6-8A11-995EB41319CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9B61BDD-00F8-4BC6-8A11-995EB41319CC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F4369825-148F-4575-8C74-5051D875D9DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4369825-148F-4575-8C74-5051D875D9DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4369825-148F-4575-8C74-5051D875D9DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4369825-148F-4575-8C74-5051D875D9DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
