@@ -9,3 +9,5 @@ BabyAgeCounter.Server/appsettings.Development.json
 BabyAgeCounter.Server/appsettings.json
 
 BabyAgeCounterTests/obj/
+
+BabyAgeCounterTests/bin/Debug/net8.0/

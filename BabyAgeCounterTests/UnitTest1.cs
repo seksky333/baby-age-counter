@@ -1,48 +1,46 @@
+using System.Diagnostics.CodeAnalysis;
 using BabyAgeCounter.Server.models;
 using BabyAgeCounter.Server.Repositories;
+using BabyAgeCounter.Server.Services;
+using BabyAgeCounter.Server.utilities;
 using Moq;
 
 namespace BabyAgeCounterTests;
 
+[SuppressMessage("Assertion",
+    "NUnit2005:Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)")]
 public class Tests
 {
-    private Mock<IBabyRepository> babyRepo;
-    private List<BabyEntity> babyList;
+    private Mock<IBabyRepository> _babyRepo;
+    private List<BabyEntity> _babyList;
 
     [SetUp]
     public void Setup()
     {
-        babyRepo = new Mock<IBabyRepository>();
-        babyList = new List<BabyEntity>
+        _babyRepo = new Mock<IBabyRepository>();
+        _babyList = new List<BabyEntity>
         {
             new()
             {
                 Id = new Guid(),
                 DueDate = DateTime.Today,
-                Age = DateTime.Today,
+                Age = DateTime.Today
             }
         };
-
-        // _controller = new BabyController();
-
-        // var dbContextOption = new DbContextOptions();
-        // var babyContext = new BabyContext();
-        // _controller = new BabyController();
     }
 
     [Test]
-    public void Test1()
+    public void TestGetBabyDto()
     {
-        /*
-         * Test service layer
-         */
-        
-        babyRepo.Setup(repo => repo.FindAll()).ReturnsAsync(babyList);
-        //var result = controller.Findall()
-        //check result 
-        Console.WriteLine(babyList.Count);
+        var expectedDate = DateTimeConverter.ToUtcMillis(DateTime.Today);
+        _babyRepo.Setup(service => service.FindAll()).ReturnsAsync(_babyList);
+        var babyService = new BabyService(_babyRepo.Object);
+        var babyList = babyService.FindAll().Result;
+        var baby = babyList.First();
 
-        Assert.Pass();
+        Assert.AreEqual(1, babyList.Count);
+        Assert.AreEqual(expectedDate, baby.DueDate);
+        Assert.AreEqual(expectedDate, baby.Age);
     }
 
     [Test]
@@ -54,7 +52,7 @@ public class Tests
          * Invalid parameters return the correct error response.
          * The action calls the correct method on the repository or service layer.
          * https://learn.microsoft.com/en-us/aspnet/web-api/overview/testing-and-debugging/unit-testing-controllers-in-web-api
-         */ 
+         */
     }
 
     [Test]
@@ -63,6 +61,6 @@ public class Tests
         /*
          * Test EF Core
          * Using DbContext with In-Memory
-         */ 
+         */
     }
 }
