@@ -1,63 +1,76 @@
 ﻿using BabyAgeCounter.Server.data;
 using BabyAgeCounter.Server.models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BabyAgeCounter.Server.Repositories;
 
-public class BabyRepository : IRepository<BabyEntity>, IDisposable
+public sealed class BabyRepository : IBabyRepository, IDisposable
 {
-    private BabyContext _dbContext;
-    public IEnumerable<BabyEntity> GetAll()
+    private static bool EnsureCreated { get; set; } = false;
+    private bool _disposed = false;
+    private readonly BabyContext _dbContext;
+
+    public BabyRepository(BabyContext dbContext)
     {
-        return _dbContext.Baby.ToList();
+        _dbContext = dbContext;
+        
+        if (!EnsureCreated)
+        {
+            _dbContext.Database.EnsureCreated();
+            EnsureCreated = true;
+        }
     }
 
-    public BabyEntity GetById(int id)
+    public Task<List<BabyEntity>> FindAll()
     {
-        return _dbContext.Baby.Find(id);
+        return _dbContext.Baby.ToListAsync();
     }
 
-    public void Insert(BabyEntity entity)
+    public async Task<BabyEntity?> FindById(Guid id)
+    {
+        return await _dbContext.Baby
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Id.Equals(id));
+    }
+
+    public void Add(BabyEntity entity)
     {
         _dbContext.Baby.Add(entity);
     }
 
 
-    public void Update(BabyEntity updatedEntity, int id)
+    public void Update(BabyEntity updatedEntity)
     {
         _dbContext.Entry(updatedEntity).State = EntityState.Modified;
     }
 
-    public void Delete(int id)
+    public bool Remove(Guid id)
     {
-        BabyEntity baby = _dbContext.Baby.Find(id);
+        BabyEntity? baby = _dbContext.Baby.FirstOrDefault(e => e.Id.Equals(id));
+        if (baby == null) return false;
         _dbContext.Baby.Remove(baby);
+        return true;
     }
 
-    public void Save()
+    public Task<int> SaveAsync()
     {
-        _dbContext.SaveChanges();
+        return _dbContext.SaveChangesAsync();
     }
 
-    private bool disposed = false;
-
-    public BabyRepository(BabyContext dbContext)
+    private void Dispose(bool disposing)
     {
-        this._dbContext = dbContext;
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!this.disposed)
+        if (!_disposed)
         {
             if (disposing)
             {
                 _dbContext.Dispose();
             }
         }
-        this.disposed = true;
+
+        this._disposed = true;
     }
-    
+
     public void Dispose()
     {
         Dispose(true);

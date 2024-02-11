@@ -1,16 +1,14 @@
+using BabyAgeCounter.Server;
 using BabyAgeCounter.Server.data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("azureDB") ?? throw new ArgumentNullException($"DB connection string is not found")
-    ;
-builder.Services.AddDbContext<BabyContext>(options =>
-    options.UseCosmos(connectionString, "BabyDB")
-);
+var connectionString = builder.Configuration.GetConnectionString("azureDB") ?? throw new ArgumentNullException($"DB connection string is not found");
 
-builder.Services.AddControllers();
+new DiService().ConfigureServices(services: builder.Services, connectionString);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

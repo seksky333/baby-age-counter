@@ -1,40 +1,23 @@
-﻿using BabyAgeCounter.Server.data;
-using BabyAgeCounter.Server.models;
+﻿using BabyAgeCounter.Server.models;
+using BabyAgeCounter.Server.Repositories;
 using BabyAgeCounter.Server.utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BabyAgeCounter.Server.Controllers;
 
 [ApiController]
 [Route("/")]
-public class BabyController : ControllerBase
+public class BabyController(IBabyRepository repo) : ControllerBase
 {
-    private readonly BabyContext _dbContext;
-    private static bool _ensureCreated { get; set; } = false;
-
-    
-
-    public BabyController(BabyContext dbContext)
-    {
-        _dbContext = dbContext;
-
-        if (!_ensureCreated)
-        {
-            _dbContext.Database.EnsureCreated();
-            _ensureCreated = true;
-        }
-    }
-
     [HttpGet("Baby")]
     public async Task<IActionResult> GetBaby()
     {
-        var babyEntityList = await _dbContext.Baby.ToListAsync();
+        var babyEntityList = await repo.FindAll();
         var babyList = babyEntityList.ConvertAll(baby => new BabyDto
         {
             Id = baby.Id.ToString(),
             Age = DateTimeConverter.ToUtcMillis(baby.Age),
-            DueDate = DateTimeConverter.ToUtcMillis(baby.DueDate)         
+            DueDate = DateTimeConverter.ToUtcMillis(baby.DueDate)
         }).ToList();
         return Ok(babyList);
     }
@@ -47,42 +30,36 @@ public class BabyController : ControllerBase
             Age = baby.Age,
             DueDate = baby.DueDate
         };
-
-        await _dbContext.AddAsync(newBaby);
-        await _dbContext.SaveChangesAsync();
+        repo.Add(newBaby);
+        await repo.SaveAsync();
         return Ok(newBaby);
     }
 
     [HttpPut("Baby")]
     public async Task<IActionResult> UpdateBaby([FromBody] BabyEntity updatedBaby, Guid id)
     {
-        var existingBaby = await _dbContext.Baby.FirstOrDefaultAsync(baby => baby.Id == id);
+        // var existingBaby = await _dbContext.Baby.FirstOrDefaultAsync(baby => baby.Id == id);
+        var existingBaby = await repo.FindById(id);
         if (existingBaby is null)
         {
             return NotFound($"Given baby:${id} cannot be found!");
         }
+        repo.Update(updatedBaby);
 
         existingBaby.Age = updatedBaby.Age;
         existingBaby.DueDate = updatedBaby.DueDate;
-        await _dbContext.SaveChangesAsync();
+        await repo.SaveAsync();
         return NoContent();
     }
 
     [HttpDelete("Baby")]
     public async Task<IActionResult> RemoveBaby(Guid id)
     {
-        var existingBaby = await _dbContext.Baby.FirstOrDefaultAsync(baby => baby.Id == id);
-        if (existingBaby is null)
-        {
-            return NotFound($"Given baby:${id} cannot be found!");
-        }
+        var canRemove = repo.Remove(id);
 
+        if (canRemove) await repo.SaveAsync();
+        else return NotFound($"Given baby:${id} cannot be found!");
 
-        _dbContext.Baby.Remove(new BabyEntity
-        {
-            Id = id
-        });
-        await _dbContext.SaveChangesAsync();
         return Ok();
     }
 }
