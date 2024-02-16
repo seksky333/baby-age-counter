@@ -1,4 +1,5 @@
 ﻿using BabyAgeCounter.Server.data;
+using BabyAgeCounter.Server.Mapper;
 using BabyAgeCounter.Server.Repositories;
 using BabyAgeCounter.Server.Services;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ public class DiService
         );
         services.AddScoped<IBabyRepository, BabyRepository>();
         services.AddScoped<IBabyService, BabyService>();
+        services.AddAutoMapper(typeof(MappingProfile));
         services.AddControllers();
     }
 }

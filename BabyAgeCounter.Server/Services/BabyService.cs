@@ -1,22 +1,17 @@
-﻿using BabyAgeCounter.Server.models;
+﻿using AutoMapper;
+using BabyAgeCounter.Server.models;
 using BabyAgeCounter.Server.Repositories;
 using BabyAgeCounter.Server.utilities;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BabyAgeCounter.Server.Services;
 
-public class BabyService(IBabyRepository repoImpl) : IBabyService
+public class BabyService(IBabyRepository repoImpl, IMapper mapper) : IBabyService
 {
     public async Task<List<BabyDto>> FindAll()
     {
         var babyEntityList = await repoImpl.FindAll();
-        var babyList = babyEntityList.ConvertAll(baby => new BabyDto
-        {
-            Id = baby.Id.ToString(),
-            Age = DateTimeConverter.ToUtcMillis(baby.Age),
-            DueDate = DateTimeConverter.ToUtcMillis(baby.DueDate)
-        }).ToList();
-        
+        var babyList = mapper.Map<List<BabyDto>>(babyEntityList);
         return babyList;
     }
 
