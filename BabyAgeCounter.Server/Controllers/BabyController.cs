@@ -17,21 +17,15 @@ public class BabyController(IBabyService babyService) : ControllerBase
     }
 
     [HttpPost("Baby")]
-    public async Task<IActionResult> CreateBaby([FromBody] BabyEntity baby)
+    public async Task<IActionResult> CreateBaby([FromBody] BabyDto baby)
     {
-        var newBaby = new BabyEntity
-        {
-            Age = baby.Age,
-            DueDate = baby.DueDate
-        };
-        await babyService.AddBaby(newBaby);
-        return Ok(newBaby);
+        await babyService.AddBaby(baby);
+        return Ok(baby);
     }
 
     [HttpPut("Baby")]
-    public async Task<IActionResult> UpdateBaby([FromBody] BabyEntity updatedBaby, Guid id)
+    public async Task<IActionResult> UpdateBaby([FromBody] BabyDto updatedBaby, Guid id)
     {
-        // var existingBaby = await _dbContext.Baby.FirstOrDefaultAsync(baby => baby.Id == id);
         var existingBaby = await babyService.FindById(id);
         if (existingBaby is null)
         {

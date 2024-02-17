@@ -14,7 +14,7 @@ public sealed class BabyRepository : IBabyRepository, IDisposable
     public BabyRepository(BabyContext dbContext)
     {
         _dbContext = dbContext;
-        
+
         if (!EnsureCreated)
         {
             _dbContext.Database.EnsureCreated();
@@ -31,7 +31,7 @@ public sealed class BabyRepository : IBabyRepository, IDisposable
     {
         return await _dbContext.Baby
             .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Id.Equals(id));
+            .FirstOrDefaultAsync(e => e.Id.CompareTo(id) == 0);
     }
 
     public void Add(BabyEntity entity)

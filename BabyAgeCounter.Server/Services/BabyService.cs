@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using BabyAgeCounter.Server.models;
 using BabyAgeCounter.Server.Repositories;
-using BabyAgeCounter.Server.utilities;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BabyAgeCounter.Server.Services;
 
@@ -11,24 +9,26 @@ public class BabyService(IBabyRepository repoImpl, IMapper mapper) : IBabyServic
     public async Task<List<BabyDto>> FindAll()
     {
         var babyEntityList = await repoImpl.FindAll();
-        var babyList = mapper.Map<List<BabyDto>>(babyEntityList);
-        return babyList;
+        return mapper.Map<List<BabyDto>>(babyEntityList);
     }
 
-    public Task<BabyEntity?> FindById(Guid id)
+    public async Task<BabyDto?> FindById(Guid id)
     {
-        return repoImpl.FindById(id);
+        var babyEntity = await repoImpl.FindById(id);
+        return mapper.Map<BabyDto>(babyEntity);
     }
 
-    public async Task AddBaby(BabyEntity entity)
+    public async Task AddBaby(BabyDto newBaby)
     {
-        repoImpl.Add(entity);
+        var babyEntity = mapper.Map<BabyEntity>(newBaby);
+        repoImpl.Add(babyEntity);
         await repoImpl.SaveAsync();
     }
 
-    public async Task UpdateBaby(BabyEntity updatedEntity)
+    public async Task UpdateBaby(BabyDto updatedBaby)
     {
-        repoImpl.Update(updatedEntity);
+        var babyEntity = mapper.Map<BabyEntity>(updatedBaby);
+        repoImpl.Update(babyEntity);
         await repoImpl.SaveAsync();
     }
 

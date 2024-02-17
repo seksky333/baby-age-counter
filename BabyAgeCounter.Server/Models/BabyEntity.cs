@@ -2,10 +2,10 @@
 
 namespace BabyAgeCounter.Server.models;
 
-public class BabyEntity
+public record BabyEntity
 {
     [Key]
-    public Guid? Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime Age { get; set; }
     public DateTime DueDate { get; set; }
 }
