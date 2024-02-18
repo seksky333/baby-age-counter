@@ -1,5 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5d25fd7d_002D3d5f_002D4d65_002D88e2_002D41a53b0ac9f8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestFindAllBabies" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5d25fd7d_002D3d5f_002D4d65_002D88e2_002D41a53b0ac9f8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestFindAllBabies" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::F4369825-148F-4575-8C74-5051D875D9DB::net8.0::BabyAgeCounterTests.Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
@@ -10,8 +10,8 @@
     &lt;TestId&gt;NUnit3x::F4369825-148F-4575-8C74-5051D875D9DB::net8.0::BabyAgeCounterTests.Tests.TestFindBabyById&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dfd5eece_002D3cc6_002D4f10_002D8320_002D5c19dc025e5e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestUpdateBaby" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dfd5eece_002D3cc6_002D4f10_002D8320_002D5c19dc025e5e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestUpdateBaby" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::F4369825-148F-4575-8C74-5051D875D9DB::net8.0::BabyAgeCounterTests.Tests.TestUpdateBaby&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::F4369825-148F-4575-8C74-5051D875D9DB::net8.0::BabyAgeCounterTests.Tests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

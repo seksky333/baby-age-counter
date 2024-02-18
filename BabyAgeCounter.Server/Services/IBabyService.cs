@@ -1,4 +1,4 @@
-﻿using BabyAgeCounter.Server.models;
+﻿using BabyAgeCounter.Server.DTOs;
 
 namespace BabyAgeCounter.Server.Services;
 

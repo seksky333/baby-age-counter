@@ -2,7 +2,7 @@
 
 namespace BabyAgeCounter.Server.models;
 
-public record BabyEntity
+public class BabyEntity
 {
     [Key]
     public Guid Id { get; set; }

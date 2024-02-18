@@ -1,4 +1,4 @@
-﻿namespace BabyAgeCounter.Server.models;
+﻿namespace BabyAgeCounter.Server.DTOs;
 
 public record BabyDto
 {
