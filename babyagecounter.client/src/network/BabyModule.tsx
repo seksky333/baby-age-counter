@@ -1,6 +1,4 @@
-import { isDevelopment } from "../utilities/EnvManager";
-
-const SERVER = "http://localhost:9090"
+import { isDevelopment, serverAddress } from "../utilities/EnvManager";
 
 
 export interface BabyModel {
@@ -10,7 +8,7 @@ export interface BabyModel {
 }
 
 export async function getBaby() {
-    const url = isDevelopment() ? `${SERVER}/baby` : "/baby";
+    const url = isDevelopment() ? `${serverAddress}/baby` : "/baby";
     const response = await fetch(url);
     return await response.json();
 }

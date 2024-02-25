@@ -1,15 +1,18 @@
-import { isDevelopment, getServerAddress } from "../utilities/EnvManager";
+import { isDevelopment, serverAddress } from "../utilities/EnvManager";
 
-const SERVER = getServerAddress();
 
 export interface IdentityModel {
     token: string,
     refreshToken: string
 }
 
-export async function get() {
-    
-    const url = isDevelopment() ? `${getServerAddress()}/baby` : "/baby";
+export interface LoginModel {
+    email: string,
+    password: string
+}
+
+export async function login() {
+    const url = isDevelopment() ? `${serverAddress}/login` : "/login";
     const response = await fetch(url);
     return await response.json();
 }
