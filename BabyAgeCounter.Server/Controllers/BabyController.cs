@@ -1,19 +1,23 @@
 ﻿using BabyAgeCounter.Server.DTOs;
-using BabyAgeCounter.Server.models;
+using BabyAgeCounter.Server.Filter;
 using BabyAgeCounter.Server.Services;
-using BabyAgeCounter.Server.utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BabyAgeCounter.Server.Controllers;
 
 [ApiController]
 [Route("/")]
-public class BabyController(IBabyService babyService) : ControllerBase
+public class BabyController(IBabyService babyService, IUserService userService) : ControllerBase
 {
     [HttpGet("Baby")]
+    [TokenAuthorization]
     public async Task<IActionResult> GetBaby()
     {
+        var isAuthenticated = await userService.Authenticate("");
+        Console.WriteLine($"isAuthenticated: ${isAuthenticated}");
+
         var babyList = await babyService.FindAll();
+
         return Ok(babyList);
     }
 
