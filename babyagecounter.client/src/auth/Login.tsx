@@ -1,5 +1,6 @@
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import { IdentityModel, login } from '../network/AuthModule';
+import { QueryClient, QueryClientProvider, useMutation } from 'react-query';
+import { LoginModel, login } from '../network/AuthModule';
+import { useState } from 'react';
 
 const queryClient = new QueryClient()
 
@@ -11,19 +12,45 @@ export default function Login() {
     )
 }
 
-
-
 function LoginContent() {
-    const { isLoading, isError, data, refetch } = useQuery<IdentityModel>({
-        queryKey: ['login'],
-        queryFn: login,
-        enabled: false
-    });
-
-    const handleLogin = ()=>{
-        refetch();
-    };
+    const {isLoading, isError, isSuccess, mutate} = useMutation({
+        mutationFn: (loginModel: LoginModel) => {
+          return login(loginModel)
+        },
+      })
     
+
+
+    const [loginModel, setLoginModel] = useState<LoginModel>({ email: 'seksky333@gmail.com', password: '60Auburn!' });
+    // const { isLoading, isError, data, refetch } = useQuery<IdentityModel>({
+    //     queryKey: ['login'],
+    //     queryFn: (loginModel: LoginModel) => login(loginModel),
+    //     enabled: false
+    // });
+
+    // const handleLogin = () => {
+    //     refetch();
+    // };
+
+    const onLoginModelChanged = (e: React.ChangeEvent<HTMLInputElement>, isEmail: boolean) => {
+        const newVal = e.target.value;
+        if (isEmail) {
+            setLoginModel(
+                {
+                    email: newVal,
+                    password: loginModel.password
+                }
+            );
+        } else {
+            setLoginModel(
+                {
+                    email: loginModel.email,
+                    password: newVal
+                }
+            );
+        }
+    }
+
     if (isLoading) return <div>Logging in...</div>;
 
     // const identity: IdentityModel | null = data != null ? data : null
@@ -63,6 +90,8 @@ function LoginContent() {
                                         name="email"
                                         type="email"
                                         autoComplete="email"
+                                        value={loginModel.email}
+                                        onChange={(e) => onLoginModelChanged(e, true)}
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-400 sm:text-sm sm:leading-6"
                                     />
@@ -85,8 +114,10 @@ function LoginContent() {
                                         id="password"
                                         name="password"
                                         type="password"
+                                        value={loginModel.password}
                                         autoComplete="current-password"
                                         required
+                                        onChange={(e) => onLoginModelChanged(e, false)}
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-400 sm:text-sm sm:leading-6"
                                     />
                                 </div>
@@ -95,7 +126,9 @@ function LoginContent() {
                             <div>
                                 <button
                                     type="submit"
-                                    onClick={handleLogin}
+                                    onClick={()=>{
+                                        mutate(loginModel)
+                                    }}
                                     className="flex w-full justify-center rounded-md bg-green-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-400"
                                 >
                                     Log in
@@ -110,3 +143,4 @@ function LoginContent() {
 
     }
 }
+
