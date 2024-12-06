@@ -21,7 +21,7 @@ function LoginContent() {
     
 
 
-    const [loginModel, setLoginModel] = useState<LoginModel>({ email: 'seksky333@gmail.com', password: '60Auburn!' });
+    const [loginModel, setLoginModel] = useState<LoginModel>({ email: 'user@user.com', password: 'SomePassword' });
     // const { isLoading, isError, data, refetch } = useQuery<IdentityModel>({
     //     queryKey: ['login'],
     //     queryFn: (loginModel: LoginModel) => login(loginModel),
@@ -50,6 +50,7 @@ function LoginContent() {
             );
         }
     }
+    if(isSuccess) return <div> isSuccess</div>
 
     if (isLoading) return <div>Logging in...</div>;
 

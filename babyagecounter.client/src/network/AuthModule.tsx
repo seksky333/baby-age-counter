@@ -12,7 +12,8 @@ export interface LoginModel {
 }
 
 export async function login(loginModel: LoginModel) {
-    const authServerAddress = "http://localhost:5194";
+    // const authServerAddress = "http://localhost:5194";
+    const authServerAddress = serverAddress;
     console.log(loginModel);
 
     const url = isDevelopment() ? `${authServerAddress}/login` : "/login";
