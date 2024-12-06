@@ -1,5 +1,6 @@
 using BabyAgeCounter.Server;
 using BabyAgeCounter.Server.data;
+using BabyAgeCounter.Server.Filter;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,16 @@ new DiService().ConfigureServices(services: builder.Services,
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Authorization Header",
+        Version = "v1"
+    });
+    options.OperationFilter<AuthorizationHeaderFilter>();
+});
+
 
 var allowedOrigins = "localhost";
 

@@ -1,22 +1,26 @@
-import { BabyModel, getBaby } from "../network/BabyModule";
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import { isDevelopment } from "../utilities/EnvManager";
-import moment from 'moment'
-
+import {BabyModel, getBaby} from "../network/BabyModule";
+import {QueryClient, QueryClientProvider, useQuery} from 'react-query';
+import {isDevelopment} from "../utilities/EnvManager";
+import moment from 'moment-timezone'
 
 const queryClient = new QueryClient()
 
-const showAgeByWeeks = (dateTime: string) => {
-    const birthDate = new Date(parseInt(dateTime));
-    const curDate = new Date();
-    const elapsed = curDate.getTime() - birthDate.getTime();
-    const ageByWeeks = moment.duration(elapsed).asWeeks();
-    const weeks = Math.floor(ageByWeeks);
-    console.log(Math.abs(weeks - ageByWeeks));
-    console.log(7 * Math.abs(weeks - ageByWeeks));
-    const remainingDays = Math.floor(7 * Math.abs(weeks - ageByWeeks));
-    const ageCount = `${weeks} weeks and ${remainingDays} days`
-    return ageCount;
+const showCurrentAgeByWeek = (dateTime: string) => {
+    const birthDate = moment(dateTime).valueOf();
+    const curDate = moment(new Date().getTime()).valueOf();
+    
+    const elapsedInMillis = curDate - birthDate;
+    const elapsedByWeeks = moment.duration(elapsedInMillis).asWeeks();
+    const weeks = Math.floor(elapsedByWeeks);
+    const remainingDays = Math.round(7 * Math.abs(weeks - elapsedByWeeks));
+    return `${weeks} weeks and ${remainingDays} days`;
+};
+
+const showBirthDateAndTime = (dateTime: string) => {
+    // const dueDate = new Date(parseInt(dateTime));
+    const birthdate = moment(dateTime);
+    birthdate.utcOffset()
+    return birthdate.format("LLLL");
 };
 
 const showDueDate = (dateTime: string) => {
@@ -24,8 +28,8 @@ const showDueDate = (dateTime: string) => {
     return dueDate.toLocaleDateString();
 };
 
-const getBabyRoomImgUrl = () => {
-    const imagePath = "baby_room.jpg";
+const getBabyImgUrl = () => {
+    const imagePath = "baby.jpg";
     const assetPath = isDevelopment() ? `/public/${imagePath}` : `/${imagePath}`;
     return new URL(`${assetPath}`, import.meta.url).href;
 };
@@ -33,14 +37,14 @@ const getBabyRoomImgUrl = () => {
 
 export default function AgeCounter() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <BabyAgeContent />
+        <QueryClientProvider client={queryClient}>  
+            <BabyAgeContent/>
         </QueryClientProvider>
     )
 }
 
 function BabyAgeContent() {
-    const { isLoading, data } = useQuery<BabyModel[]>({
+    const {isLoading, data} = useQuery<BabyModel[]>({
         queryKey: ['baby'],
         queryFn: getBaby
     });
@@ -61,16 +65,21 @@ function BabyAgeContent() {
             <>
                 <div className="flex flex-col items-center">
                     <div className="max-w-sm rounded overflow-hidden shadow-lg">
-                        <img className="w-full" src={getBabyRoomImgUrl()} alt="Sunset in the mountains"></img>
+                        <img className="w-full" src={getBabyImgUrl()} alt="Sunset in the mountains"></img>
                         <div className="px-6 py-4">
                             <div className="text-xl mb-2">
                                 <span>I'm </span>
-                                <span className="font-bold">{showAgeByWeeks(baby.age)}</span>
+                                <span className="font-bold">{showCurrentAgeByWeek(baby.age)}</span>
                                 <span> old</span>
                             </div>
-                            <p className="text-gray-700 text-base">
-                                Will be meeting you on {showDueDate(baby.dueDate)}
-                            </p>
+                            <section className="py-4">
+                                <p className="text-gray-700 text-base">
+                                    My birth date and time is {showBirthDateAndTime(baby.age)}
+                                </p>
+                                <p className="text-gray-700 text-base">
+                                    My due date was: {showDueDate(baby.dueDate)}
+                                </p>
+                            </section>
                         </div>
                     </div>
                 </div>

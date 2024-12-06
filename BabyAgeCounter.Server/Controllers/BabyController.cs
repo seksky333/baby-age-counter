@@ -13,7 +13,7 @@ public class BabyController(IBabyService babyService, IUserService userService) 
     [TokenAuthorization]
     public async Task<IActionResult> GetBaby()
     {
-        var isAuthenticated = await userService.Authenticate("");
+        var isAuthenticated = await userService.Authenticate("DUMMY_TOKEN");
         Console.WriteLine($"isAuthenticated: ${isAuthenticated}");
 
         var babyList = await babyService.FindAll();
