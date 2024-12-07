@@ -1,1 +1,2 @@
-D:\1.Dev\9.dontnet_workspace\baby-age-counter\babyagecounter.client\obj\Debug\babyagecounter.client.esproj.CoreCompileInputs.cache
+D:/1.Dev/9.dontnet_workspace/baby-age-counter/babyagecounter.client/obj/Debug/babyagecounter.client.esproj.CoreCompileInputs.cache
+/Users/chezhome/1.Dev/9.dotnet_workspace/baby-age-counter/babyagecounter.client/obj/Debug/babyagecounter.client.esproj.CoreCompileInputs.cache

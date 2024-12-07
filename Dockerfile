@@ -30,6 +30,8 @@ RUN dotnet build "./BabyAgeCounter.Server.csproj" -c $BUILD_CONFIGURATION -o /ap
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
+#workaround to address Could not create certificate error
+RUN mkdir -p /root/.aspnet/https/
 RUN dotnet publish "./BabyAgeCounter.Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
